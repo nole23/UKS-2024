@@ -1,0 +1,72 @@
+version: '3.12'
+
+services:
+  db:
+    image: postgres:13
+    container_name: postgres-db
+    environment:
+      POSTGRES_DB: uks
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456789
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - mynetwork
+
+  web:
+    build:
+      context: ./server
+    container_name: django-web
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_NAME=uks
+      - DB_USER=postgres
+      - DB_PASSWORD=123456789
+    volumes:
+      - ./server:/app
+    depends_on:
+      - db
+      - redis
+    networks:
+      - mynetwork
+    ports:
+      - "8000:8000"
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx-proxy
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      # - ./nginx/ssl:/etc/nginx/ssl
+    depends_on:
+      - web
+    ports:
+      # - "443:443"  # port za HTTPS
+      - "80:80"
+    networks:
+      - mynetwork
+
+  redis:
+    image: redis:latest
+    container_name: redis-cache
+    networks:
+      - mynetwork
+
+  client:
+    build:
+      context: ./client
+    container_name: angular-client
+    ports:
+      - "4200:4200"
+    depends_on:
+      - nginx
+    networks:
+      - mynetwork
+
+volumes:
+  db-data:
+
+networks:
+  mynetwork:
+    driver: bridge
