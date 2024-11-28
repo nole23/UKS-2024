@@ -1,6 +1,6 @@
 from django.db import models
 from milestons.models import Milestone
-from users.models import Users
+from users.models import CustomUser
 
 # Model za Project
 class Project(models.Model):
@@ -51,7 +51,7 @@ class PullRequest(models.Model):
     repository = models.ForeignKey(Repository, related_name='pull_requests', on_delete=models.CASCADE)
     source_branch = models.ForeignKey(Branch, related_name='source_pull_requests', on_delete=models.CASCADE)
     target_branch = models.ForeignKey(Branch, related_name='target_pull_requests', on_delete=models.CASCADE)
-    created_by = models.ForeignKey(Users, related_name='created_pull_requests', on_delete=models.CASCADE)
+    created_by = models.ForeignKey(CustomUser, related_name='created_pull_requests', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_approved = models.BooleanField(default=False)
@@ -65,8 +65,8 @@ class Issue(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField()
     repository = models.ForeignKey(Repository, related_name='issues', on_delete=models.CASCADE)
-    created_by = models.ForeignKey(Users, related_name='created_issues', on_delete=models.CASCADE)
-    assigned_to = models.ForeignKey(Users, related_name='assigned_issues', null=True, blank=True, on_delete=models.SET_NULL)
+    created_by = models.ForeignKey(CustomUser, related_name='created_issues', on_delete=models.CASCADE)
+    assigned_to = models.ForeignKey(CustomUser, related_name='assigned_issues', null=True, blank=True, on_delete=models.SET_NULL)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=20, choices=[('open', 'Open'), ('closed', 'Closed')], default='open')
@@ -79,7 +79,7 @@ class Issue(models.Model):
 class Commit(models.Model):
     message = models.CharField(max_length=255)
     file = models.ForeignKey(File, related_name='commits', on_delete=models.CASCADE)
-    author = models.ForeignKey(Users, related_name='commits', on_delete=models.CASCADE)
+    author = models.ForeignKey(CustomUser, related_name='commits', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     commit_hash = models.CharField(max_length=40, unique=True)  # Git commit hash (SHA-1)
 

@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -77,14 +79,25 @@ WSGI_APPLICATION = 'uks.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# Detekcija okruženja, ako se koristi Docker
+IS_DOCKER = os.environ.get('IS_DOCKER', False)
+
+# Učitavanje odgovarajuće .env datoteke na temelju okruženja
+env_file = '.env'  # Podrazumijevana datoteka
+if os.environ.get('DJANGO_ENV') == 'docker':
+    env_file = '.env.docker'
+elif os.environ.get('DJANGO_ENV') == 'test':
+    env_file = '.env.test'
+
+# Učitavanje varijabli iz odgovarajuće .env datoteke
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'uks',
-        'USER': 'postgres',
-        'PASSWORD': '123456789',
-        'HOST': 'db',
-        'PORT': '5432',
+        'ENGINE': config('DATABASE_ENGINE'),
+        'NAME': config('DATABASE_NAME'),
+        'USER': config('DATABASE_USER'),
+        'PASSWORD': config('DATABASE_PASSWORD'),
+        'HOST': config('DATABASE_HOST'),
+        'PORT': config('DATABASE_PORT'),
     }
 }
 
