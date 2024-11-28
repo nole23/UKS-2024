@@ -150,6 +150,21 @@ USE_TZ = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# u settings.py
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    ),
+}
+
+CSRF_COOKIE_HTTPONLY = False
+APPEND_SLASH = False
+
+# # settings.py
+# AUTHENTICATION_BACKENDS = [
+#     'users.backends.EmailAuthBackend',  # Naš backend za email autentifikaciju
+#     'django.contrib.auth.backends.ModelBackend',  # Standardni backend
+# ]
 
 # Podesi direktorijum za upload fajlova
 MEDIA_URL = '/media/'
