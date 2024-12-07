@@ -103,6 +103,9 @@ jobs:
   docker-deploy:
     needs: [client-build, server-build]
     runs-on: ubuntu-latest
+    # Pokreće se samo ako je grana master
+    if: ${{ github.ref == 'refs/heads/master' }}
+    continue-on-error: true  # Ovaj job će biti označen kao uspešan čak iako nije izvršen
 
     env:
       RELEASE_TAG: latest  # Inicijalizuješ RELEASE_TAG sa "latest", možeš kasnije menjati
