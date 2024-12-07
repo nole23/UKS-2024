@@ -34,16 +34,14 @@ services:
       - "8000:8000"
 
   nginx:
-    image: nginx:latest
+    build:
+      context: ./nginx   # Koristi Dockerfile iz nginx direktorijuma
     container_name: nginx-proxy
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-      # - ./nginx/ssl:/etc/nginx/ssl
     depends_on:
       - web
+      - client
     ports:
-      # - "443:443"  # port za HTTPS
-      - "80:80"
+      - "80:80"   # Ili "443:443" za HTTPS
     networks:
       - mynetwork
 
