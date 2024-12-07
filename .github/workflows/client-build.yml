@@ -1,4 +1,4 @@
-name: Build and Test Client and Server
+name: Build and Test Angular Client
 
 on:
   push:
@@ -23,15 +23,15 @@ jobs:
 
       - name: Install dependencies for Angular client
         run: |
-          cd client  # Ulazi u direktorijum gde se nalazi package.json
+          cd client
           npm install --legacy-peer-deps
 
       - name: Build Angular client
         run: |
-          cd client  # Ponovno ulazi u direktorijum 'client'
+          cd client
           npm run build --prod
 
-      - name: Test Angular client (optional)
+      - name: Test Angular client
         run: |
-          cd client  # Ponovo ulazi u direktorijum 'client'
+          cd client
           npm run test -- --watch=false --browsers=ChromeHeadlessCI

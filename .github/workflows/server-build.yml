@@ -1,4 +1,4 @@
-name: Build and Test Client and Server
+name: Build and Test Django Server
 
 on:
   push:
@@ -9,33 +9,6 @@ on:
       - feature/US_#6
 
 jobs:
-  client-build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '22.9.0'
-
-      - name: Install dependencies for Angular client
-        run: |
-          cd client
-          npm install
-
-      - name: Build Angular client
-        run: |
-          cd client
-          npm run build --prod
-
-      - name: Test Angular client (optional)
-        run: |
-          cd client
-          npm run test -- --watch=false --browsers=ChromeHeadlessCI
-
   server-build:
     runs-on: ubuntu-latest
 
@@ -57,18 +30,22 @@ jobs:
 
       - name: Set environment to test
         run: |
-          echo "DJANGO_ENV=test" >> $GITHUB_ENV  # Postavi varijablu za testiranje
+          echo "DJANGO_ENV=test" >> $GITHUB_ENV
 
-      - name: Print environment variables for debugging (optional)
+      - name: Load environment variables from .env.test
         run: |
-          cat .env.test  # Proveri da li je fajl učitan
-          echo "DATABASE_ENGINE=$DATABASE_ENGINE"
-          echo "DATABASE_NAME=$DATABASE_NAME"
+          set -o allexport
+          source $GITHUB_WORKSPACE/server/.env.test
+          set +o allexport
+
+      - name: Check if .env.test exists (debug)
+        run: |
+          ls -alh $GITHUB_WORKSPACE/server/
+          cat $GITHUB_WORKSPACE/server/.env.test
 
       - name: Run Django migrations and tests with SQLite
         run: |
           cd server
           source venv/bin/activate
-          # Uveri se da je SQLite postavljen za testove
           python manage.py migrate
           python manage.py test
