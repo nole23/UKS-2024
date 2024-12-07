@@ -1,0 +1,22 @@
+name: Build Nginx Configuration
+
+on:
+  push:
+    branches:
+      - feature/US_#6
+  pull_request:
+    branches:
+      - feature/US_#6
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build Nginx Docker image
+        run: |
+          cd nginx
+          docker build -t my-nginx .
