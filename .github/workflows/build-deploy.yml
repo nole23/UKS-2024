@@ -14,8 +14,6 @@ jobs:
   # Job za buildanje Angular klijenta
   client-build:
     runs-on: ubuntu-latest
-    outputs:
-      client-status: ${{ steps.client-status.conclusion }}
 
     steps:
       - name: Checkout repository
@@ -51,16 +49,10 @@ jobs:
           cd client
           npm run test -- --watch=false --browsers=ChromeHeadless
 
-      - name: Set client build status
-        id: client-status
-        run: echo "::set-output name=status::${{ job.status }}"
-
   # Job za buildanje Django servera
   server-build:
     needs: client-build
     runs-on: ubuntu-latest
-    outputs:
-      server-status: ${{ steps.server-status.conclusion }}
 
     steps:
       - name: Checkout repository
@@ -94,7 +86,3 @@ jobs:
           source venv/bin/activate
           python manage.py migrate
           python manage.py test
-
-      - name: Set server build status
-        id: server-status
-        run: echo "::set-output name=status::${{ job.status }}"
