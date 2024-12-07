@@ -143,21 +143,21 @@ jobs:
       # Kreiranje Docker slike za server
       - name: Build Docker image for server
         run: |
-          docker build -t your-dockerhub-username/server-image:${{ env.RELEASE_TAG }} ./server
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/server-image:${{ env.RELEASE_TAG }} ./server
 
       # Kreiranje Docker slike za client
       - name: Build Docker image for client
         run: |
-          docker build -t your-dockerhub-username/client-image:${{ env.RELEASE_TAG }} ./client
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/client-image:${{ env.RELEASE_TAG }} ./client
 
       # Kreiranje Docker slike za Nginx
       - name: Build Docker image for Nginx
         run: |
-          docker build -t your-dockerhub-username/nginx-image:${{ env.RELEASE_TAG }} ./nginx
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/nginx-image:${{ env.RELEASE_TAG }} ./nginx
 
       # Push Docker slike na Docker Hub
       - name: Push Docker images to Docker Hub
         run: |
-          docker push your-dockerhub-username/server-image:${{ env.RELEASE_TAG }}
-          docker push your-dockerhub-username/client-image:${{ env.RELEASE_TAG }}
-          docker push your-dockerhub-username/nginx-image:${{ env.RELEASE_TAG }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/server-image:${{ env.RELEASE_TAG }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/client-image:${{ env.RELEASE_TAG }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/nginx-image:${{ env.RELEASE_TAG }}
