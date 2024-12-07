@@ -1,4 +1,4 @@
-name: Angular Client Build and Test
+name: Build and Test Client and Server
 
 on:
   push:
@@ -9,23 +9,29 @@ on:
       - feature/US_#6
 
 jobs:
-  build:
+  client-build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check out the repository
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up Node.js 22.9.0
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '22.9.0'  # Postavljamo Node.js na verziju 22.9.0
+          node-version: '22.9.0'
 
-      - name: Install dependencies
-        run: npm install --legacy-peer-deps  # Dodajemo --legacy-peer-deps ako imaš problema sa peer dependencijama
+      - name: Install dependencies for Angular client
+        run: |
+          cd client  # Ulazi u direktorijum gde se nalazi package.json
+          npm install --legacy-peer-deps
 
-      - name: Install Angular CLI globally
-        run: npm install -g @angular/cli
+      - name: Build Angular client
+        run: |
+          cd client  # Ponovno ulazi u direktorijum 'client'
+          npm run build --prod
 
-      - name: Run tests
-        run: ng test --watch=false --browsers=ChromeHeadless  # Pokrećemo testove u headless Chrome-u
+      - name: Test Angular client (optional)
+        run: |
+          cd client  # Ponovo ulazi u direktorijum 'client'
+          npm run test -- --watch=false --browsers=ChromeHeadlessCI

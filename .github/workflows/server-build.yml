@@ -1,4 +1,4 @@
-name: Build Django (server)
+name: Build and Test Client and Server
 
 on:
   push:
@@ -9,29 +9,66 @@ on:
       - feature/US_#6
 
 jobs:
-  build:
+  client-build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-      - name: Set up Python 3.12.8
-        uses: actions/setup-python@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          python-version: 3.12.8
+          node-version: '22.9.0'
 
-      - name: Install dependencies
+      - name: Install dependencies for Angular client
         run: |
-          python -m pip install --upgrade pip
-          pip install -r server/requirements.txt
+          cd client
+          npm install
 
-      - name: Run migrations
+      - name: Build Angular client
+        run: |
+          cd client
+          npm run build --prod
+
+      - name: Test Angular client (optional)
+        run: |
+          cd client
+          npm run test -- --watch=false --browsers=ChromeHeadlessCI
+
+  server-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12.8'
+
+      - name: Install dependencies for Django server
         run: |
           cd server
+          python -m venv venv
+          source venv/bin/activate
+          pip install -r requirements.txt
+
+      - name: Set environment to test
+        run: |
+          echo "DJANGO_ENV=test" >> $GITHUB_ENV  # Postavi varijablu za testiranje
+
+      - name: Print environment variables for debugging (optional)
+        run: |
+          cat .env.test  # Proveri da li je fajl učitan
+          echo "DATABASE_ENGINE=$DATABASE_ENGINE"
+          echo "DATABASE_NAME=$DATABASE_NAME"
+
+      - name: Run Django migrations and tests with SQLite
+        run: |
+          cd server
+          source venv/bin/activate
+          # Uveri se da je SQLite postavljen za testove
           python manage.py migrate
-
-      - name: Run Django tests
-        run: |
-          cd server
           python manage.py test
