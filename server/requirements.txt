@@ -5,3 +5,4 @@ django_redis==5.2.0
 Pillow
 python-decouple
 djangorestframework
+python-dotenv

@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import os
 from decouple import config
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -90,7 +91,8 @@ elif os.environ.get('DJANGO_ENV') == 'test':
     env_file = '.env.test'
 
 # Učitaj varijable iz odgovarajuće .env datoteke
-config.read(env_file)  # Dodajemo ovo da bismo učitali specifičnu .env datoteku
+from dotenv import load_dotenv
+load_dotenv(dotenv_path=os.path.join(BASE_DIR, env_file))
 
 # Učitavanje varijabli iz odgovarajuće .env datoteke
 DATABASES = {
