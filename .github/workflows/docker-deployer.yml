@@ -1,0 +1,64 @@
+name: Deploy Docker Image to Docker Hub
+
+on:
+  push:
+    branches:
+      - feature/US_#6     # Ova grana
+  workflow_run:
+    workflows: ["server-build", "client-build"]  # Ove dve akcije moraju biti uspešno završene
+    types:
+      - completed
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      RELEASE_TAG: latest  # Inicijalizuješ RELEASE_TAG sa "latest", možeš kasnije menjati
+
+    steps:
+      # Proveravamo da li su prethodni workflow-i prošli
+      - name: Check if previous workflows succeeded
+        if: ${{ github.event.workflow_run.conclusion == 'success' }}
+        run: echo "Previous workflows succeeded. Proceeding with Docker deployment."
+
+      # Ako prethodni workflow-i nisu uspešno prošli, workflow se prekida
+      - name: Abort if previous workflows failed
+        if: ${{ github.event.workflow_run.conclusion != 'success' }}
+        run: |
+          echo "Previous workflows failed. Aborting deployment."
+          exit 1
+
+      # Checkout-ujte kod
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Logovanje u Docker Hub sa korisničkim imenom i Docker tokenom
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # Setovanje verzionisanja slike na osnovu sadržaja iz version.txt
+      - name: Set image tag based on version.txt
+        id: set_tag
+        run: |
+          if [[ "${GITHUB_REF}" == "refs/heads/master" ]]; then
+            # Za master granu, koristimo verziju iz version.txt
+            VERSION=$(cat version.txt)   # Učitajte verziju iz version.txt
+            echo "RELEASE_TAG=${VERSION}" >> $GITHUB_ENV
+          else
+            # Za sve ostale grane, koristimo latest tag
+            echo "RELEASE_TAG=latest" >> $GITHUB_ENV
+          fi
+
+      # Kreiranje Docker slike
+      - name: Build Docker image
+        run: |
+          docker build -t your-dockerhub-username/your-image-name:${{ env.RELEASE_TAG }} .
+
+      # Push Docker slike na Docker Hub
+      - name: Push Docker image to Docker Hub
+        run: |
+          docker push your-dockerhub-username/your-image-name:${{ env.RELEASE_TAG }}
