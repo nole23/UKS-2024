@@ -15,7 +15,7 @@ jobs:
   client-build:
     runs-on: ubuntu-latest
     outputs:
-      client-status: ${{ steps.client-status.outcome }}
+      client-status: ${{ steps.client-status.conclusion }}
 
     steps:
       - name: Checkout repository
@@ -60,7 +60,7 @@ jobs:
     needs: client-build
     runs-on: ubuntu-latest
     outputs:
-      server-status: ${{ steps.server-status.outcome }}
+      server-status: ${{ steps.server-status.conclusion }}
 
     steps:
       - name: Checkout repository
