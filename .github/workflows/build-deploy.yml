@@ -3,10 +3,12 @@ name: Build and Deploy Docker Image
 on:
   push:
     branches:
-      - feature/US_#6  # Ova grana
+      - master  # Ova grana
+      - release/1.0.0/uks
   pull_request:
     branches:
-      - feature/US_#6
+      - master
+      - release/1.0.0/uks
 
 jobs:
   # Job za buildanje Angular klijenta
