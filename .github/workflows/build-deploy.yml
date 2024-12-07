@@ -108,16 +108,16 @@ jobs:
       RELEASE_TAG: latest  # Inicijalizuješ RELEASE_TAG sa "latest", možeš kasnije menjati
 
     steps:
-      # Prvi uslov: Ako nije master grana, preskoči sve
-      - name: Skip deploy if not master branch
+      - name: Skip deployment for non-master branches
         if: ${{ github.ref != 'refs/heads/master' }}
-        run: echo "Not on master branch. Marking as successful and skipping deploy."
-        continue-on-error: true  # Ovaj korak se preskače i označava kao uspešan
+        run: |
+          echo "Not on master branch. Skipping deployment."
+          exit 0  # Označava kao uspešan i preskoči sve sledeće
 
-      # Drugi uslov: Ako je master grana, nastavi sa deployom
+      # Nastavlja se ako je master grana
       - name: Check if previous workflows succeeded
-        if: ${{ github.ref == 'refs/heads/master' && needs.client-build.result == 'success' && needs.server-build.result == 'success' }}
-        run: echo "Previous workflows succeeded. Proceeding with Docker deployment."
+        if: ${{ github.ref == 'refs/heads/master' }}
+        run: echo "Deploying on master branch."
 
       # Proveravamo da li su prethodni workflow-i prošli
       - name: Check if previous workflows succeeded
