@@ -1,4 +1,4 @@
-name: Build and Deploy Docker Image
+name: Build project
 
 on:
   push:
@@ -14,8 +14,6 @@ jobs:
   # Job za buildanje Angular klijenta
   client-build:
     runs-on: ubuntu-latest
-    outputs:
-      client-status: ${{ steps.client-status.outcome }}
 
     steps:
       - name: Checkout repository
@@ -51,16 +49,10 @@ jobs:
           cd client
           npm run test -- --watch=false --browsers=ChromeHeadless
 
-      - name: Set client build status
-        id: client-status
-        run: echo "::set-output name=status::${{ job.status }}"
-
   # Job za buildanje Django servera
   server-build:
     needs: client-build
     runs-on: ubuntu-latest
-    outputs:
-      server-status: ${{ steps.server-status.outcome }}
 
     steps:
       - name: Checkout repository
@@ -94,72 +86,3 @@ jobs:
           source venv/bin/activate
           python manage.py migrate
           python manage.py test
-
-      - name: Set server build status
-        id: server-status
-        run: echo "::set-output name=status::${{ job.status }}"
-
-  # Job za deploy Docker slike
-  docker-deploy:
-    needs: [client-build, server-build]
-    runs-on: ubuntu-latest
-
-    env:
-      RELEASE_TAG: latest  # Inicijalizuješ RELEASE_TAG sa "latest", možeš kasnije menjati
-
-    steps:
-      # Proveravamo da li su prethodni workflow-i prošli
-      - name: Check if previous workflows succeeded
-        if: ${{ needs.client-build.result == 'success' && needs.server-build.result == 'success' }}
-        run: echo "Previous workflows succeeded. Proceeding with Docker deployment."
-
-      # Ako prethodni workflow-i nisu uspešno prošli, workflow se prekida
-      - name: Abort if previous workflows failed
-        if: ${{ needs.client-build.result != 'success' || needs.server-build.result != 'success' }}
-        run: |
-          echo "Previous workflows failed. Aborting deployment."
-          exit 1
-
-      # Checkout-ujte kod
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      # Logovanje u Docker Hub sa korisničkim imenom i Docker tokenom
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      # Setovanje verzionisanja slike na osnovu sadržaja iz version.txt
-      - name: Set image tag based on version.txt
-        id: set_tag
-        run: |
-          if [[ "${GITHUB_REF}" == "refs/heads/master" ]]; then
-            VERSION=$(cat version.txt)   # Učitajte verziju iz version.txt
-            echo "RELEASE_TAG=${VERSION}" >> $GITHUB_ENV
-          else
-            echo "RELEASE_TAG=latest" >> $GITHUB_ENV
-          fi
-
-      # Kreiranje Docker slike za server
-      - name: Build Docker image for server
-        run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/server-image:${{ env.RELEASE_TAG }} ./server
-
-      # Kreiranje Docker slike za client
-      - name: Build Docker image for client
-        run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/client-image:${{ env.RELEASE_TAG }} ./client
-
-      # Kreiranje Docker slike za Nginx
-      - name: Build Docker image for Nginx
-        run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/nginx-image:${{ env.RELEASE_TAG }} ./nginx
-
-      # Push Docker slike na Docker Hub
-      - name: Push Docker images to Docker Hub
-        run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/server-image:${{ env.RELEASE_TAG }}
-          docker push ${{ secrets.DOCKER_USERNAME }}/client-image:${{ env.RELEASE_TAG }}
-          docker push ${{ secrets.DOCKER_USERNAME }}/nginx-image:${{ env.RELEASE_TAG }}
