@@ -26,6 +26,16 @@ jobs:
           cd client
           npm install --legacy-peer-deps
 
+      - name: Install Google Chrome
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget
+          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+          sudo apt install ./google-chrome-stable_current_amd64.deb
+
+      - name: Set Chrome path
+        run: echo "CHROME_BIN=/usr/bin/google-chrome" >> $GITHUB_ENV
+
       - name: Build Angular client
         run: |
           cd client
@@ -34,4 +44,4 @@ jobs:
       - name: Test Angular client
         run: |
           cd client
-          npm run test -- --watch=false --browsers=ChromeHeadlessCI
+          npm run test -- --watch=false --browsers=ChromeHeadless
