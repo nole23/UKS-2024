@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import os
 from decouple import config
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -89,15 +90,19 @@ if os.environ.get('DJANGO_ENV') == 'docker':
 elif os.environ.get('DJANGO_ENV') == 'test':
     env_file = '.env.test'
 
+# Učitaj varijable iz odgovarajuće .env datoteke
+from dotenv import load_dotenv
+load_dotenv(dotenv_path=os.path.join(BASE_DIR, env_file))
+
 # Učitavanje varijabli iz odgovarajuće .env datoteke
 DATABASES = {
     'default': {
-        'ENGINE': config('DATABASE_ENGINE'),
-        'NAME': config('DATABASE_NAME'),
-        'USER': config('DATABASE_USER'),
-        'PASSWORD': config('DATABASE_PASSWORD'),
-        'HOST': config('DATABASE_HOST'),
-        'PORT': config('DATABASE_PORT'),
+        'ENGINE': config('DATABASE_ENGINE', default='django.db.backends.sqlite3'),
+        'NAME': config('DATABASE_NAME', default=BASE_DIR / 'db.sqlite3'),  # Koristi SQLite ako nije definisano drugačije
+        'USER': config('DATABASE_USER', default=''),  # Prazno za SQLite
+        'PASSWORD': config('DATABASE_PASSWORD', default=''),  # Prazno za SQLite
+        'HOST': config('DATABASE_HOST', default=''),  # Prazno za SQLite
+        'PORT': config('DATABASE_PORT', default=''),  # Prazno za SQLite
     }
 }
 
