@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="login-box">
+    <img src="github-mark-white.svg" alt="" width="48px" height="48px">
+    <h1>Sign in to GitHub</h1>
+
+    <span *ngIf="loginError" class="error">Credentials is not valid</span>
+    <span *ngIf="loginError1" class="error">{{errorMessage}}.</span>
+    <div class="forms" [ngClass]="{ 'border-error' : loginError || loginError1 }">
+      <form action="#">
+        <div class="textbox">
+          <label>Email</label>
+          <input type="text" class="from-controll" id="email" [(ngModel)]="email" placeholder="Enter email address" name="email" required>
+        </div>
+        <div class="textbox" style="margin-top: 15px;">
+          <label style="position: absolute;">Password</label>
+          <a href="/auth/password_reset" class="fotgot-password">Forgot password?</a>
+          <input type="password" class="from-controll" id="password" [(ngModel)]="password" placeholder="Password" name="password" required>
+        </div>
+        <button type="submit" class="btn btn-success btn-submit" (click)="login()">Sign in</button>
+      </form>
+    </div>
+
+    <div class="forms" style="margin-top: 15px;">
+      <span>New to GitHub? <a href="/auth/singup">Create an account</a></span>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,36 @@
+<div class="container">
+    <div class="login-box">
+      <img src="github-mark-white.svg" alt="" width="48px" height="48px">
+      <h1>Sign up to GitHub</h1>
+      <span *ngIf="error.isNotSaved" [ngClass]="{ 'error' : error.isNotSaved }">User not create!</span>
+      <div class="forms" [ngClass]="{ 'border-error' : error.isNotSaved}">
+        <form action="#">
+          <div class="textbox">
+            <label [ngClass]="{ 'error' : error.isEmail }">Email <span *ngIf="error.isEmail"> is invalid</span></label>
+            <input type="text" class="from-controll" [ngClass]="{ 'error' : error.isEmail, 'border-error': error.isEmail }" id="email" [(ngModel)]="email" placeholder="Email address" name="email" required>
+          </div>
+          <div class="textbox" style="margin-top: 15px;">
+            <label [ngClass]="{ 'error' : error.isUseranem}">Username <span *ngIf="error.isUseranem"> is invalid</span></label>
+            <input type="text" class="from-controll" [ngClass]="{ 'error' : error.isUseranem, 'border-error': error.isUseranem }" id="username" [(ngModel)]="username" placeholder="Username" name="username" required>
+          </div>
+          <div class="textbox" style="margin-top: 15px;">
+            <label [ngClass]="{ 'error' : error.isFirstname}">First Name <span *ngIf="error.isFirstname"> is invalid</span></label>
+            <input type="text" class="from-controll" [ngClass]="{ 'error' : error.isFirstname, 'border-error': error.isFirstname }" id="firstName" [(ngModel)]="firstName" placeholder="First name" name="firstName" required>
+          </div>
+          <div class="textbox" style="margin-top: 15px;">
+            <label [ngClass]="{ 'error' : error.isLastname}">Last Name <span *ngIf="error.isLastname"> is invalid</span></label>
+            <input type="text" class="from-controll" [ngClass]="{ 'error' : error.isLastname, 'border-error': error.isLastname }" id="lastName" [(ngModel)]="lastName" placeholder="Last name" name="lastName" required>
+          </div>
+          <div class="textbox" style="margin-top: 15px;">
+            <label [ngClass]="{ 'error' : error.isPasswrod1}">Password <span *ngIf="error.isPasswrod1"> is invalid. Minimum 8 characters</span></label>
+            <input type="password" class="from-controll" [ngClass]="{ 'error' : error.isPasswrod1, 'border-error': error.isPasswrod1 }" id="password1" [(ngModel)]="password1" placeholder="Password" name="password1" required>
+          </div>
+          <div class="textbox" style="margin-top: 15px;">
+            <label [ngClass]="{ 'error' : error.isPasswrod2 || error.passwordsMatch}">Again password <span *ngIf="error.isPasswrod2"> is invalid. Minimum 8 characters</span> <span *ngIf="error.passwordsMatch"> is invalid. Does not match</span></label>
+            <input type="password" class="from-controll" [ngClass]="{ 'error' : error.isPasswrod2 || error.passwordsMatch }" id="password2" [(ngModel)]="password2" placeholder="Again password" name="password2" required>
+          </div>
+          <button type="submit" class="btn btn-success btn-submit" (click)="createNewUsers()">Create new user</button>
+        </form>
+      </div>
+    </div>
+  </div>
