@@ -4,6 +4,9 @@ import { LoginComponent } from './login/login.component';  // Uveri se da je kom
 import { AuthComponent } from './auth.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { HomeComponent } from './home/home.component';
+import { RestartPasswordComponent } from './restart-password/restart-password.component';
+import { CheckTockenComponent } from './restart-password/check-tocken/check-tocken.component';
+import { NewPasswordComponent } from './restart-password/new-password/new-password.component';
 
 const routes: Routes = [
   {
@@ -12,7 +15,10 @@ const routes: Routes = [
     children: [
       { path: '', component: HomeComponent },
       { path: 'login', component: LoginComponent },
-      { path: 'singup', component: RegistrationComponent }
+      { path: 'singup', component: RegistrationComponent },
+      { path: 'password_reset', component: RestartPasswordComponent },
+      { path: 'verify_token', component: CheckTockenComponent },
+      { path: 'new_password', component: NewPasswordComponent }
     ]
   }
 ];
