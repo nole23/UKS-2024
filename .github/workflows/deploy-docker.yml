@@ -26,13 +26,6 @@ jobs:
         if: ${{ github.event.workflow_run.conclusion == 'success' }}
         run: echo "Previous workflow was successful. Proceeding with deployment."
 
-      # Ako prethodni workflow nije bio uspešan, abortiraj deploy
-      - name: Abort deployment if previous workflow failed
-        if: ${{ github.event.workflow_run.conclusion != 'success' }}
-        run: |
-          echo "Build project workflow failed. Aborting deployment."
-          exit 1
-
       # Skip deployment for non-master branches
       - name: Skip deployment for non-master branches
         if: ${{ github.ref != 'refs/heads/master' }}
