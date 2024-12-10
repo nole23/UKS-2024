@@ -6,3 +6,5 @@ Pillow
 python-decouple
 djangorestframework
 python-dotenv
+django-cors-headers
+celery

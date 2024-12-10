@@ -22,7 +22,12 @@ export class NewPasswordComponent {
     if (!this.verifyPassword(this.password1, this.password2)) {
       let email = localStorage.getItem('resetPasswordEmail');
       if (email != null) {
-        this.authService.generateNewPassword({'password': this.password1, 'email': email}).subscribe((res: any) => {
+        let token = localStorage.getItem('token');
+        if (token !== null) {
+          token = JSON.parse(token)['token']
+        }
+        email = JSON.parse(email)['email']
+        this.authService.generateNewPassword({'password': this.password1, 'email': email, 'token': token}).subscribe((res: any) => {
           if (!res.status) {
             alert('Server not responsed. Try again');
             this.router.navigate(['/auth/password_reset']);

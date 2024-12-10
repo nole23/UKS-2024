@@ -53,6 +53,7 @@ export class RegistrationComponent {
         if (!res.status) {
           this.error.isNotSaved = true;
         } else {
+          alert(`User ${newUser.first_name + ' ' + newUser.last_name} is successed saved.`)
           this.router.navigate(['/auth/login']);
         }
       }, (error: any) => {

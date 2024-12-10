@@ -82,21 +82,6 @@ describe('LoginComponent', () => {
     expect(component.loginError1).toBeTrue(); // Trebalo bi da se postavi na true jer login nije uspeo
   });
 
-  it('should navigate to dashboard on successful login', fakeAsync(() => {
-    component.email = 'user@example.com';
-    component.password = 'password123';
-
-    // Mockiraj uspešan odgovor
-    authService.login.and.returnValue(of({ status: true }));
-
-    spyOn(router, 'navigate');  // Špijuniraj funkciju navigate
-
-    component.login();  // Poziv login funkcije
-    tick();  // Prođi kroz sve asinhrone operacije
-
-    expect(router.navigate).toHaveBeenCalledWith(['/dashboard']);  // Proveri da li je pozvana funkcija navigate
-  }));
-
   it('should show login error if server returns unexpected status', () => {
     component.email = 'user@example.com';
     component.password = 'password123';

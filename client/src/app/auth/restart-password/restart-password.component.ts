@@ -23,18 +23,23 @@ export class RestartPasswordComponent {
           localStorage.setItem('resetPasswordEmail', JSON.stringify({'email': this.email}))
           this.router.navigate(['/auth/verify_token']);
         }
+      }, _ => {
+        this.isErrorSend = true;
       });
+    }
+    else {
+
     }
   }
 
   verifyEmail(email: string): boolean {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-    if (!email || !emailRegex.test(email)) {
-      this.isError = true; // Ako nije ispravan, postavi error
+    if (email && emailRegex.test(email)) {
+      this.isError = false;
       return true;
     } else {
-      this.isError = false; // Ako je ispravan, resetuj error
+      this.isError = true;
       return false;
     }
   }

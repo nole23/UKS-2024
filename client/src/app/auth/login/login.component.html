@@ -4,7 +4,7 @@
     <h1>Sign in to GitHub</h1>
 
     <span *ngIf="loginError" class="error">Credentials is not valid</span>
-    <span *ngIf="loginError1" class="error">Email or password is not corrected. Pleas try again.</span>
+    <span *ngIf="loginError1" class="error">{{errorMessage}}.</span>
     <div class="forms" [ngClass]="{ 'border-error' : loginError || loginError1 }">
       <form action="#">
         <div class="textbox">

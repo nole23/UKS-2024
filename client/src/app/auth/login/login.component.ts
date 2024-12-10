@@ -15,6 +15,7 @@ export class LoginComponent {
   loginError1: boolean = false;
   isEmail: boolean = false;
   isPassword: boolean = false;
+  errorMessage: string = '';
   constructor(private authService: AuthServiceService, private router: Router) {}
 
   login(): void {
@@ -34,9 +35,10 @@ export class LoginComponent {
       this.authService.login(new LoginUsers({'email': this.email, 'password': this.password}))
         .subscribe((res: any) => {
           if (!res.status) {
+            this.errorMessage = res.message;
             this.loginError1 = true;
           } else {
-            this.router.navigate(['/dashboard']);
+            window.location.reload();
           }
         },
         (error: any) => {

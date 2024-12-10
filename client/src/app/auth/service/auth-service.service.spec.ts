@@ -27,78 +27,87 @@ describe('AuthServiceService', () => {
   });
 
   it('should register a new user', () => {
-    const newUser = new CreateUsers({
-      email: 'test@test.com',
-      username: 'testuser',
-      firstName: 'Test',
-      lastName: 'User',
-      password: 'Test1234'
-    });
-
-    const mockResponse = { status: true };
+    const newUser: CreateUsers = {
+      email: '',
+      username: '',
+      first_name: '',
+      last_name: '',
+      password: ''
+    };
 
     service.registrationUsers(newUser).subscribe(response => {
-      expect(response.status).toBeTrue();
+      expect(response.status).toBe(true); // Ako registracija bude uspešna, očekujemo status true
     });
 
-    const req = httpMock.expectOne('http://localhost:8000/registration');
+    const req = httpMock.expectOne('http://localhost:8000/api/users/create/');
     expect(req.request.method).toBe('POST');
-    req.flush(mockResponse); // Simuliramo odgovor sa servera
+    req.flush({ message: 'SUCCESS' }); // Simuliraj uspešan odgovor
   });
 
-  it('should login a user', () => {
-    const loginUser = new LoginUsers({
-      username: 'testuser',
-      password: 'Test1234'
-    });
-
-    const mockResponse = { status: true, user: { username: 'testuser', firstName: 'Test', lastName: 'User' } };
+  it('should login user successfully', () => {
+    const loginUser: LoginUsers = { email: 'user@example.com', password: 'password123' };
 
     service.login(loginUser).subscribe(response => {
-      expect(response.status).toBeTrue();
+      expect(response.status).toBe(true); // Ako je logovanje uspešno, očekujemo status true
     });
 
-    const req = httpMock.expectOne('http://localhost:8000/login');
+    const req = httpMock.expectOne('http://localhost:8000/api/users/login/');
     expect(req.request.method).toBe('POST');
-    req.flush(mockResponse); // Simuliramo odgovor sa servera
+    req.flush({ message: 'SUCCESS', user: { id: 1, email: 'user@example.com' } }); // Simuliraj uspešan odgovor
   });
 
-  it('should send restart request', () => {
-    const email = 'test@test.com';
-    const mockResponse = { status: true };
+  it('should send restart request successfully', () => {
+    const email = 'user@example.com';
 
     service.sendRestartRequest(email).subscribe(response => {
-      expect(response.status).toBeTrue();
+      expect(response.status).toBe(true); // Očekujemo uspešan odgovor
     });
 
-    const req = httpMock.expectOne('http://localhost:8000/send-restart-request');
+    const req = httpMock.expectOne('http://localhost:8000/api/users/send-restart-request/');
     expect(req.request.method).toBe('POST');
-    req.flush(mockResponse); // Simuliramo odgovor sa servera
+    expect(req.request.body).toEqual({ email }); // Proveri da li je telo zahteva ispravno
+    req.flush({ message: 'SUCCESS' }); // Simuliraj uspešan odgovor
   });
 
-  it('should verify token', () => {
-    const token = 'testtoken';
-    const mockResponse = { status: true };
+  it('should verify token and store it in localStorage', () => {
+    const token = 'validToken';
+    const email = 'user@example.com';
 
-    service.verifyToken(token).subscribe(response => {
-      expect(response.status).toBeTrue();
+    service.verifyToken(token, email).subscribe(response => {
+      expect(response.status).toBe(true); // Očekujemo uspešan odgovor
+      expect(localStorage.getItem('token')).toBe(JSON.stringify({ token })); // Proveri da li je token sačuvan u localStorage
     });
 
-    const req = httpMock.expectOne(`http://localhost:8000/verify-token/${token}`);
+    const req = httpMock.expectOne(`http://localhost:8000/api/users/verify-token?token=${token}&email=${email}`);
     expect(req.request.method).toBe('GET');
-    req.flush(mockResponse); // Simuliramo odgovor sa servera
+    req.flush({ message: 'SUCCESS' }); // Simuliraj uspešan odgovor
   });
 
-  it('should generate new password', () => {
-    const newPasswordData = { newPassword: 'NewPassword123' };
-    const mockResponse = { status: true };
+  it('should generate new password and clear localStorage', () => {
+    const restartData = { email: 'user@example.com', password: 'newPassword123', token: 'validToken' };
 
-    service.generateNewPassword(newPasswordData).subscribe(response => {
-      expect(response.status).toBeTrue();
+    spyOn(localStorage, 'clear'); // Špijuniraj clear metodu iz localStorage
+
+    service.generateNewPassword(restartData).subscribe(response => {
+      expect(response.status).toBe(true); // Očekujemo uspešan odgovor
+      expect(localStorage.clear).toHaveBeenCalled(); // Proveri da li je clear pozvan
     });
 
-    const req = httpMock.expectOne('http://localhost:8000/restart-password');
+    const req = httpMock.expectOne('http://localhost:8000/api/users/restart-password/');
     expect(req.request.method).toBe('PUT');
-    req.flush(mockResponse); // Simuliramo odgovor sa servera
+    req.flush({ message: 'SUCCESS' }); // Simuliraj uspešan odgovor
   });
+
+  it('should handle login error', () => {
+    const loginUser: LoginUsers = { email: 'user@example.com', password: 'password123' };
+
+    service.login(loginUser).subscribe(response => {
+      expect(response.status).toBe(false); // Očekujemo status false zbog greške
+      expect(response.message).toBe('Email or password is not correct. Try again.'); // Očekivana greška
+    });
+
+    const req = httpMock.expectOne('http://localhost:8000/api/users/login/');
+    req.flush({ message: 'INVALID_CREDENTIALS' }, { status: 400, statusText: 'Bad Request' }); // Simuliraj grešku 400
+  });
+
 });

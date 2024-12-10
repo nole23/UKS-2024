@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   styleUrl: './check-tocken.component.css'
 })
 export class CheckTockenComponent {
-
+  email: string = '';
   token: string = '';
   isError: boolean = false;
   isErrorToken: boolean = false;
@@ -17,7 +17,11 @@ export class CheckTockenComponent {
 
   verifyToken() {
     if (this.token.length > 0) {
-      this.authService.verifyToken(this.token).subscribe((res: any) => {
+      let user = localStorage.getItem('resetPasswordEmail')
+      if (user !== null) {
+        this.email = JSON.parse(user)['email'];
+      }
+      this.authService.verifyToken(this.token, this.email).subscribe((res: any) => {
         if (!res.status) {
           this.isErrorToken = true;
         } else {

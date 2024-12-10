@@ -40,9 +40,10 @@ describe('CheckTockenComponent', () => {
     authServiceMock.verifyToken.and.returnValue(of(mockResponse)); // Vraća mock odgovarajući Observable
 
     component.token = 'validToken';
+    component.email = 'valid@email.com';
     component.verifyToken();  // Pozovi metodu za verifikaciju tokena
 
-    expect(authServiceMock.verifyToken).toHaveBeenCalledWith('validToken'); // Proveri da li je verifyToken pozvan sa pravim tokenom
+    expect(authServiceMock.verifyToken).toHaveBeenCalledWith('validToken', 'valid@email.com'); // Proveri da li je verifyToken pozvan sa pravim tokenom
     expect(routerMock.navigate).toHaveBeenCalledWith(['/auth/new_password']); // Proveri da li je pozvana navigacija
   });
 
