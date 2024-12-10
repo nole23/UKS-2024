@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework_simplejwt',
     'corsheaders',
     'users',  # Dodajte ovu liniju,
     'dashboard',
@@ -93,23 +92,6 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'uks.2024.ns@gmail.com'
 EMAIL_HOST_PASSWORD = 'Generisani_Aplikacijski_Password'  # Aplikacijska lozinka
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-
-# Konfiguracija za Simple JWT
-
-SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
-    'ROTATE_REFRESH_TOKENS': False,
-    'BLACKLIST_AFTER_ROTATION': False,
-    'ALGORITHM': 'HS256',
-    'SIGNING_KEY': 'your-secret-key',
-    'VERIFYING_KEY': None,
-    'AUDIENCE': None,
-    'ISSUER': None,
-    'USER_ID_FIELD': 'id',
-    'USER_ID_CLAIM': 'user_id',
-    'AUTH_HEADER_TYPES': ('Bearer',),
-}
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
