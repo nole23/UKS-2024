@@ -1,0 +1,67 @@
+<header class="app-header">
+    <h2 class="sr-only">Navigation Manu</h2>
+    <div class="app-header-global-bar">
+        <div class="app-header-global-bar-start">
+            <a href="" class="app-header-logo ml-1">
+                <img src="github-mark-white.svg" alt="" class="v-algin-middle octicon">
+            </a>
+            <div class="app-header-context">
+                <div class="app-header-context-compact">
+                    <a href="" class="app-header-context-compact-trigger no-underline">
+                        <strong class="app-header-context-compact-main-item d-flex flex flex-item-center truncate">
+                            <span class="truncate-text">Dashboard</span>
+                        </strong>
+                    </a>
+                </div>
+                <div class="app-header-context-full">
+                    <nav>
+                        <ul class="list-style-none padding-left-0">
+                            <li>
+                                <a href="" class="app-header-context-item">
+                                    <span>Dashboard</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <div class="app-header-global-bar-end">
+            <div class="app-header-search">
+                <div class="search-input">
+                    <div class="form-group has-success has-feedback">
+                        <div class="col-sm-10 position-relative">
+                            <input type="text" class="form-control custom-input" id="inputSuccess" placeholder="Search...">
+                            <i class="fa fa-search position-absolute top-50 end-0 translate-middle-y pe-3" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="app-header-actions position-relative">
+                <div class="col-sm-10">
+                    <a href="issues" class="icon-link">
+                        <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+                    </a>
+                </div>
+                <div class="col-sm-10">
+                    <a href="pulls" class="icon-link">
+                        <i class="fa fa-share-alt" aria-hidden="true"></i>
+                    </a>
+                </div>
+                <div class="col-sm-10">
+                    <a href="notifications" class="icon-link">
+                        <i class="fa fa-archive" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="app-header-user">
+                <!-- <app-diferred-side-panel></app-diferred-side-panel> -->
+                <button class="image-button" (click)="openPanel()">
+                    <img src="avatars/1.png" alt="Profile" class="avatar-image" />
+                </button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<app-diferred-side-panel></app-diferred-side-panel>

@@ -1,0 +1,31 @@
+.feed-left-sidebar {
+    --feed-sidebar: 336px;
+}
+
+.feed-left-sidebar {
+    width: var(--feed-sidebar);
+}
+
+.dashboard-sidebar {
+    top: 0;
+    bottom: 0;
+    z-index: 30;
+    display: flex;
+    min-height: 50vh;
+    max-height: 100vh;
+    flex-direction: column;
+}
+
+.avatar {
+    background-color: #ffffff1a;
+    border-radius: 50%;
+    box-shadow: 0 0 0 1px #ffffff26;
+    display: inline-block;
+    flex-shrink: 0;
+    line-height: 1;
+    overflow: hidden;
+    vertical-align: middle;
+    height: 20px;
+    aspect-ratio: auto 20 / 20;
+    width: 20px;
+}

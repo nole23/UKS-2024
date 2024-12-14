@@ -15,4 +15,9 @@ export class CommonService {
       }
       return false;
     }
+
+    logout() {
+      localStorage.removeItem('user');
+      window.location.reload();
+    }
 }

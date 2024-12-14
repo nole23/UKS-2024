@@ -8,3 +8,144 @@ body {
     height: 100vh;
     color: #f0f6fc
 }
+
+.ml-1 {
+    margin-left: 0.25rem !important;
+}
+
+.no-underline {
+    text-decoration: none !important;
+}
+
+.d-flex {
+    display: flex !important;
+}
+
+.flex-item-center {
+    align-items: center !important;
+}
+
+.truncate {
+    display: inline-flex;
+    max-width: 100%;
+    min-width: 0;
+}
+
+.truncate-text {
+    max-width: fit-content;
+    min-width: 1ch;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.list-style-none {
+    list-style: none;
+}
+
+.padding-left-0 {
+    padding-left: 0rem;
+}
+
+.position-relative {
+    position: relative !important;
+}
+
+.flex-row {
+    flex-direction: row !important;
+}
+
+.color-bg-transparent {
+    background-color: transparent !important;
+}
+
+.border-0 {
+    border: 0 !important;
+}
+
+.color-fg-subtle {
+    color: #9198a1 !important;
+}
+
+.mx-0 {
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+}
+
+.flex-1 {
+    flex: 1 !important;
+}
+
+.lh-condensed {
+    line-height: 1.25 !important;
+}
+
+.f5 {
+    font-size: 0.875rem !important;
+}
+
+.mr-auto {
+    margin-right: auto !important;
+}
+.ml-2 {
+    margin-left: 0.5rem !important;
+}
+
+.text-bold {
+    font-weight: 600 !important;
+}
+
+.image-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.color-1 {
+    color: rgb(145, 152, 161);
+}
+
+.color-bg-default {
+    background-color: #0d1117 !important;
+}
+
+.feed-background {
+    background-color: #010409 !important;
+}
+
+.full-screen {
+    width: 100%;
+    height: 100%;
+}
+
+.flex-auto {
+    flex: auto !important;
+}
+
+.d-md-flex {
+    display: flex !important;
+}
+
+.flex-justify-center {
+    justify-content: center !important;
+}
+
+.feed-content {
+    gap: 2.5rem;
+    margin-top: 2.5rem !important;
+    padding-inline: 2.5rem;
+    width: 100%;
+    margin-inline: auto;
+}
+
+.flex-items-center {
+    align-items: center !important;
+}
+
+.flex-justify-between {
+    justify-content: space-between !important;
+}
+
+.border-custom {
+    border: 0.0625rem solid #3d443d !important;
+}

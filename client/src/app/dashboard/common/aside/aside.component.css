@@ -1,0 +1,16 @@
+.feed-right-sidebar {
+    display: block;
+    width: 356px;
+    height: 100vh;
+}
+
+.background-copilot {
+    width: 100%;
+    border: 0.0625rem solid #3d444d;
+    background: #000000;
+    z-index: 1;
+    padding-top: 18px !important;
+    padding-bottom: 18px !important;
+    border-radius: 0.324rem;
+    background: linear-gradient(135deg, #1e2a47, #161b22);
+}
