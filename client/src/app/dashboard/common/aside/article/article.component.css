@@ -1,0 +1,48 @@
+.Link {
+    color: #4493f8;
+    -webkit-text-decoration: none;
+    text-decoration: none;
+}
+
+.feed-item-user-avatar {
+    border: 0.0625rem solid #010409;
+}
+
+.avatar {
+    background-color: #ffffff1a;
+    border-radius: 50%;
+    box-shadow: 0 0 0 1px #ffffff26;
+    display: inline-block;
+    flex-shrink: 0;
+    line-height: 1;
+    overflow: hidden;
+    vertical-align: middle;
+    width: 33px;
+    height: 33px;
+}
+
+.h5 {
+    font-size: 0.875rem;
+}
+
+.text-normal {
+    font-weight: 400;
+}
+
+.color-fg-muted {
+    color: #9198a1
+}
+
+.boold {
+    color: #9198a1;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.boold:hover {
+    color: #fff;
+}
+
+.h6 {
+    font-size: 0.75rem;
+}

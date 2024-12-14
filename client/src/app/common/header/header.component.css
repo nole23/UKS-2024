@@ -1,0 +1,241 @@
+.app-header {
+    --AppHeader-bg: #010409;
+    color: #f0f6fc;
+    background: var(--AppHeader-bg);
+    border-bottom: 0.0625rem solid #3d444d;
+    padding-bottom: 0.5rem;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: rect(0 0 0 0);
+    overflow-wrap: normal;
+    border: 0;
+}
+
+.app-header-global-bar {
+    display: flex;
+    padding: 0.5rem 1rem;
+    gap: 0.75rem;
+}
+
+.app-header-global-bar-start {
+    flex: 1 1 auto;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.app-header-global-bar-end {
+    flex: 0 1 auto;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    max-height: calc(2rem);
+}
+
+.app-header-logo {
+    width: 2rem;
+    height: 2rem;
+    outline-offset: 2px;
+    border-radius: 624.9375rem;
+}
+
+.app-header-logo img {
+    width: 2rem;
+    height: 2rem;
+    color: #f0f6fc;
+}
+
+.v-algin-middle {
+    vertical-align: middle !important;
+}
+
+.octicon {
+    display: inline-block;
+    overflow: visible !important;
+    vertical-align: text-bottom;
+    fill: currentColor;
+}
+
+.app-header-context {
+    min-width: 0;
+    height: 2rem;
+    flex: 1 1 auto;
+}
+
+.app-header-context-compact {
+    display: none;
+}
+
+.app-header-context-full {
+    display: inline-flex;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.app-header-context-compact-trigger {
+    display: grid
+;
+    width: 100%;
+    height: 3rem;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+    background-color: transparent;
+    border: 0;
+    border-radius: 0.375rem;
+    margin-block: calc(0.5rem * -1);
+    padding-block: 0.375rem;
+    padding-inline: 0.5rem;
+    appearance: none;
+    align-items: center;
+}
+
+.app-header-context-compact-main-item {
+    display: block;
+    overflow: hidden;
+    line-height: 1.4285714286;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.app-header-context-full nav {
+    width: 100%;
+}
+
+.app-header-context-full ul {
+    display: flex;
+    flex-direction: row;
+}
+
+.app-header-context-full li:last-child {
+    flex: 0 1 max-content;
+}
+
+.app-header-context-full li:first-child {
+    flex: 0 100 max-content;
+}
+
+.app-header-context-full li {
+    display: inline-grid;
+    grid-auto-flow: column;
+    align-items: center;
+    flex: 0 99999 auto;
+    list-style: none;
+}
+
+.app-header-context-item {
+    display: flex;
+    align-items: center;
+    min-width: 3ch;
+    line-height: 1.4285714286;
+    color: inherit;
+    text-decoration: none !important;
+    border-radius: 0.375rem;
+    padding-inline: 0.5rem;
+    padding-block: 0.375rem;
+    font-weight: 600;
+}
+
+.app-header-context-item:hover {
+    background-color: #656c7633;
+}
+
+.app-header-context-item span {
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.app-header-search {
+    position: relative;
+    display: flex;
+    flex: 1 1 auto;
+    justify-content: flex-end;
+}
+
+.app-header-search .search-input {
+    width: 260px;
+}
+
+.search-input-container {
+    height: auto;
+}
+
+.search-with-dialog {
+    height: 32px;
+    color: #fff;
+    background-color: #151b23f2;
+    border: 0.0625rem solid #2a313c;
+}
+
+.custom-input {
+    background-color: #010409;   /* Tamna pozadina */
+    color: #fff;                  /* Bijela boja teksta */
+    border: 0.0625rem solid #3d444d; /* Border sa željenom debljinom i bojom */
+    padding-right: 2.5rem;        /* Razmak za ikonu sa desne strane */
+}
+
+.custom-input::placeholder {
+    color: #fff;                  /* Bijela boja za placeholder tekst */
+}
+
+.custom-input:focus {
+    outline: none;                /* Uklonite fokus liniju */
+}
+
+.custom-input:focus {
+    border-color: #0062cc;  /* Primer: promenite boju granice kada je fokusirano */
+    box-shadow: 0 0 0 0.2rem rgba(0, 98, 204, 0.25);  /* Dodajte laganu senku pri fokusu */
+}
+
+.app-header-actions {
+    display: grid;
+    grid-auto-flow: column;
+    gap: 0.5rem;
+}
+
+.icon-link {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;  /* Transparentna pozadina */
+    border: 0.0625rem solid #3d444d; /* Border sa željenom debljinom i bojom */
+    color: #fff;                    /* Bijela boja za ikonu */
+    padding: 0.5rem;                /* Unutrašnji razmak za ikonu */
+    text-decoration: none;          /* Uklanja podvlačenje sa linka */
+    border-radius: 0.375rem;        /* Dodaje zaobljene ivice */
+}
+
+.icon-link:hover {
+    background-color: #656c7633;      /* Pozadinska boja pri hoveru */
+    border-color: #fff;             /* Menjanje boje border-a pri hoveru */
+}
+
+.icon-link i {
+    font-size: 1.25rem;             /* Veličina ikone */
+}
+
+.icon-link:focus {
+    outline: none;                  /* Uklanja plavi okvir pri fokusu */
+    box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.25);  /* Lagana bela senka pri fokusu */
+}
+
+.app-header-user {
+    position: relative;
+    background: #656c7633;
+    border-radius: 50%;
+}
+
+.avatar-image {
+    width: 2rem;  /* Veličina slike, možete promeniti */
+    height: 2rem;
+    border-radius: 50%;
+}
